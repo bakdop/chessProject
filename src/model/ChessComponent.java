@@ -160,7 +160,7 @@ public abstract class ChessComponent extends JComponent   {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-        //System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
         if(!squareColor.equals(Color.WHITE)){
             squareColor=BACKGROUND_COLORS[(this.chessboardPoint.getX() + this.chessboardPoint.getY()) % 2];
         }

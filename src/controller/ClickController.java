@@ -74,7 +74,6 @@ public class ClickController  {
                 recordFirst.repaint();
             } else if (handleSecond(chessComponent)) {
                 //repaint in swap chess method.
-                chessboard.getProccess().push(chessboard.getGameController().convertToList());
                 chessboard.swapChessComponents(first, chessComponent);
                 chessboard.swapColor();
                 first.setSelected(false);
@@ -87,6 +86,7 @@ public class ClickController  {
                     }
                 }
                 first = null;
+                chessboard.getProccess().push(chessboard.getGameController().convertToList());
             }
         }
     }

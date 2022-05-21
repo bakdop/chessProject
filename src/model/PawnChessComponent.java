@@ -100,17 +100,27 @@ public class PawnChessComponent extends ChessComponent {
         for (int j = 1; j <=bounds; j++) {
             int curX0 = sourceX + directions[0][0]*j;
             int curY0 = sourceY + directions[0][1]*j;
-            if (curX0 >= 0 && curX0 <=7 && curY0 >= 0 && curY0 <= 7 && (chessComponents[curX0][curY0] instanceof EmptySlotComponent) && curX0 == targetX && curY0==targetY) return true;
+            if (curX0 >= 0 && curX0 <= 7 && curY0 >= 0 && curY0 <= 7 && (chessComponents[curX0][curY0] instanceof EmptySlotComponent) && curX0 == targetX && curY0==targetY
+                    && (chessComponents[sourceX + directions[0][0]][sourceY + directions[0][1]] instanceof EmptySlotComponent))
+                return true;
             int curX1 = sourceX + directions[1][0]*j;
             int curY1 = sourceY + directions[1][1]*j;
-            if (curX1 >= 0 && curX1 <=7 && curY1 >= 0 && curY1 <= 7 && !(chessComponents[curX1][curY1] instanceof EmptySlotComponent)&& curX1 == targetX && curY1==targetY) {
+
+            if ((curX1 >= 0 && curX1 <=7 && curY1 >= 0 && curY1 <= 7 && !(chessComponents[curX1][curY1] instanceof EmptySlotComponent)&& curX1 == targetX && curY1==targetY)
+            || (curX1 >= 0 && curX1 <=7 && curY1 >= 0 && curY1 <= 7 && (chessComponents[curX1][curY1] instanceof EmptySlotComponent)&& curX1 == targetX && curY1==targetY &&
+                    chessComponents[sourceX][curY1] instanceof PawnChessComponent &&
+                    chessComponents[sourceX][curY1].chessColor != chessComponents[curX1][curY1].chessColor)) {
                 if (Math.abs(targetX-sourceX)>1&&Math.abs(targetY-sourceY)>1) return false;
                 else return true;
             }
             int curX2 = sourceX + directions[2][0]*j;
             int curY2 = sourceY + directions[2][1]*j;
+
             if (Math.abs(targetX-sourceX)>1&&Math.abs(targetY-sourceY)>1) return false;
-            if (curX2 >= 0 && curX2 <=7 && curY2 >= 0 && curY2 <= 7 && !(chessComponents[curX2][curY2] instanceof EmptySlotComponent)&& curX2 == targetX && curY2==targetY) {
+            if ((curX2 >= 0 && curX2 <=7 && curY2 >= 0 && curY2 <= 7 && !(chessComponents[curX2][curY2] instanceof EmptySlotComponent)&& curX2 == targetX && curY2==targetY) ||
+                    (curX2 >= 0 && curX2 <=7 && curY2 >= 0 && curY2 <= 7 && (chessComponents[curX2][curY2] instanceof EmptySlotComponent)&& curX2 == targetX && curY2==targetY &&
+                            chessComponents[sourceX][curY2] instanceof PawnChessComponent &&
+                            chessComponents[sourceX][curY2].chessColor != chessComponents[curX2][curY2].chessColor)) {
                 if (Math.abs(targetX-sourceX)>1||Math.abs(targetY-sourceY)>1) return false;
                 else return true;
             }

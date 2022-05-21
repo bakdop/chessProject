@@ -42,10 +42,13 @@ public class Chessboard extends JComponent {
     public void setGameController(GameController gameController) {
         this.gameController = gameController;
     }
-    private Stack<List<String>> proccess;
+
+    private Stack<List<String>> proccess=new Stack<>();
+
     public Stack<List<String>> getProccess() {
         return proccess;
     }
+
     public void setProccess(Stack<List<String>> proccess) {
         this.proccess = proccess;
     }
@@ -58,11 +61,10 @@ public class Chessboard extends JComponent {
         this.chessGameFrame = chessGameFrame;
     }
 
-    public Chessboard(int width, int height, ChessGameFrame chessGameFrame,Stack<List<String>> proccess) {
+    public Chessboard(int width, int height, ChessGameFrame chessGameFrame) {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         CHESS_SIZE = width / 8;
-        setProccess(proccess);
         System.out.printf("chessboard size = %d, chess size = %d\n", width, CHESS_SIZE);
         this.chessGameFrame=chessGameFrame;
         initiateEmptyChessboard();
@@ -86,6 +88,7 @@ public class Chessboard extends JComponent {
 //        initKnightOnBoard(0, CHESSBOARD_SIZE - 2, ChessColor.BLACK);
 //        initKnightOnBoard(CHESSBOARD_SIZE - 1, 1, ChessColor.WHITE);
 //        initKnightOnBoard(CHESSBOARD_SIZE - 1, CHESSBOARD_SIZE - 2, ChessColor.WHITE);
+//
 //
 //
 //        initPawnOnBoard(1, 0, ChessColor.BLACK);
@@ -210,11 +213,13 @@ public class Chessboard extends JComponent {
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
+
     public void initKingOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new KingChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
         putChessOnBoard(chessComponent);
     }
+
     public void initKnightOnBoard(int row, int col, ChessColor color) {
         ChessComponent chessComponent = new KnightChessComponent(new ChessboardPoint(row, col), calculatePoint(row, col), color, clickController, CHESS_SIZE);
         chessComponent.setVisible(true);
@@ -237,6 +242,8 @@ public class Chessboard extends JComponent {
         super.paintComponent(g);
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
+
+
     private Point calculatePoint(int row, int col) {
         return new Point(col * CHESS_SIZE, row * CHESS_SIZE);
     }
