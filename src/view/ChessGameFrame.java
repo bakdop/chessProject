@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -52,7 +51,7 @@ public class ChessGameFrame extends JFrame {
 
 
     private void addChessboard()  {
-        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this,new Stack<>());
+        Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this);
         chessboard.initRookOnBoard(0, 0, ChessColor.BLACK);
         chessboard.initRookOnBoard(0, 7, ChessColor.BLACK);
         chessboard.initRookOnBoard(7, 0, ChessColor.WHITE);
@@ -162,7 +161,7 @@ public class ChessGameFrame extends JFrame {
                 if(gameController.checkInput(load)){
                     remove(gameController.getChessboard());
                     remove(statusLabel);
-                    Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this,new Stack<>());
+                    Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this);
                     gameController = new GameController(chessboard);
                     chessboard.setGameController(gameController);
                     setTurnLabel(chessboard.getCurrentColor());
@@ -186,7 +185,7 @@ public class ChessGameFrame extends JFrame {
             System.out.println("Click Reset");
             remove(gameController.getChessboard());
             remove(statusLabel);
-            Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this,new Stack<>());
+            Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this);
             chessboard.initRookOnBoard(0, 0, ChessColor.BLACK);
             chessboard.initRookOnBoard(0, 7, ChessColor.BLACK);
             chessboard.initRookOnBoard(7, 0, ChessColor.WHITE);
@@ -245,30 +244,17 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("Click Undo");
             if(!gameController.getChessboard().getProccess().empty()){
-                System.out.println("yebushisha");
-                Stack<List<String>> stack=new Stack<>();
-                ArrayList<List<String>> arrayList=new ArrayList<>();
-                for(int i=0;i<gameController.getChessboard().getProccess().size();i++){
-                    arrayList.add(gameController.getChessboard().getProccess().peek());
-                    gameController.getChessboard().getProccess().pop();
-                }
-                for (int i=arrayList.size()-1;i>=0;i--){
-                    stack.push(arrayList.get(i));
-                }
                 remove(gameController.getChessboard());
                 remove(statusLabel);
-                Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this,stack);
+                Chessboard chessboard = new Chessboard(CHESSBOARD_SIZE, CHESSBOARD_SIZE,this);
                 gameController = new GameController(chessboard);
                 chessboard.setGameController(gameController);
-                gameController.convertToChessboard(chessboard.getProccess().peek());
-                chessboard.getProccess().pop();
                 setTurnLabel(chessboard.getCurrentColor());
                 chessboard.setLocation(HEIGTH / 10, HEIGTH / 10);
+                gameController.convertToChessboard(chessboard.getProccess().peek());
                 add(gameController.getChessboard());
                 addLabe();
                 chessboard.repaint();
-            }else {
-                System.out.println("shayebushi");
             }
         });
     }
