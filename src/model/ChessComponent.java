@@ -29,6 +29,11 @@ public abstract class ChessComponent extends JComponent   {
 //    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
     public static final Color[] BACKGROUND_COLORS = {Color.yellow, Color.DARK_GRAY};
     public  Color squareColor;
+
+    public ClickController getClickController() {
+        return clickController;
+    }
+
     /**
      * handle click event
      */
@@ -43,8 +48,8 @@ public abstract class ChessComponent extends JComponent   {
     public ChessboardPoint chessboardPoint;
     protected final ChessColor chessColor;
     private boolean selected;
-    private Point location;
-    int size;
+    public Point location;
+    public int size;
     private static Image boardImageB;
     private Image chessboardimageB;
     private static Image boardImageW;
@@ -160,7 +165,7 @@ public abstract class ChessComponent extends JComponent   {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+        //System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
         if(!squareColor.equals(Color.WHITE)){
             squareColor=BACKGROUND_COLORS[(this.chessboardPoint.getX() + this.chessboardPoint.getY()) % 2];
         }
@@ -171,8 +176,6 @@ public abstract class ChessComponent extends JComponent   {
         }else if(squareColor.equals(Color.yellow)){
             g.drawImage(chessboardimageW, 0, 0, this.getWidth() , this.getHeight(), this);
         }
-
-
     }
 
 

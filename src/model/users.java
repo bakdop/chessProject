@@ -46,9 +46,9 @@ public class users implements Comparable<users> {
     @Override
     public int compareTo(users o) {
         if(this.winningTimes>o.winningTimes){
-            return 1;
-        }else if(this.winningTimes<o.winningTimes){
             return -1;
+        }else if(this.winningTimes<o.winningTimes){
+            return 1;
         }else {
             return 0;
         }

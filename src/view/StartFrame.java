@@ -23,15 +23,15 @@ public class StartFrame extends JFrame{
         this.WIDTH=WIDTH;
         setSize(WIDTH, HEIGTH);
         setLocationRelativeTo(null); // Center the window.
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
         addPvP();
         addlogIn();
         addRegister();
         addRanking();
+        addPvC();
         addLabel();
         addmusic();
-
     }
     private void addLabel()  {
         ImageIcon background=new  ImageIcon("./images/E_aO-htfpvza4872797.jpg");
@@ -42,7 +42,25 @@ public class StartFrame extends JFrame{
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
     }
-
+    private void addPvC() {
+        JButton button = new JButton("PvC");
+        button.addActionListener((e) -> {
+            System.out.println("start PvC game");
+            SwingUtilities.invokeLater(() -> {
+                ChooseAILevel chooseAILevel=null;
+                try {
+                    chooseAILevel=new ChooseAILevel(500,760);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                chooseAILevel.setVisible(true);
+            });
+        });
+        button.setLocation(400, HEIGTH / 10 );
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+    }
     private void addPvP() {
         JButton button = new JButton("PvP");
         button.addActionListener((e) -> {
@@ -50,7 +68,7 @@ public class StartFrame extends JFrame{
             SwingUtilities.invokeLater(() -> {
                 ChessGameFrame mainFrame = null;
                 try {
-                    mainFrame = new ChessGameFrame(1000, 760);
+                    mainFrame = new ChessGameFrame(1000, 760,0);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

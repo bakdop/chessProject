@@ -38,7 +38,21 @@ public class GameController {
     }
     public void writeGameToFile(String path) {
         try {
-            Files.write(Path.of(path), this.convertToList(), Charset.defaultCharset());
+            List<String> lines=convertToList();
+            int num=chessboard.getProccess().size();
+            ArrayList<List<String>> retStack=new ArrayList<>();
+            for (int i=0;i<num;i++){
+                for (int j=0;j<chessboard.getProccess().peek().size();j++){
+                    lines.add(chessboard.getProccess().peek().get(j));
+                }
+                retStack.add(chessboard.getProccess().peek());
+                chessboard.getProccess().pop();
+                System.out.println(lines);
+            }
+            for (int i=retStack.size()-1;i>=0;i--){
+                chessboard.getProccess().push(retStack.get(i));
+            }
+            Files.write(Path.of(path), lines, Charset.defaultCharset());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,87 +100,10 @@ public class GameController {
                     System.out.println("Wrong chessComponent");
                     return false;
                 }
-                if (readlines.get(i).charAt(j) == '_') {
-                } else if (readlines.get(i).charAt(j) == 'r') {
-                   r++;
-                } else if (readlines.get(i).charAt(j) == 'R') {
-                    R++;
-                }else if (readlines.get(i).charAt(j) == 'N') {
-                    N++;
-                }else if (readlines.get(i).charAt(j) == 'n') {
-                    n++;
-                }else if (readlines.get(i).charAt(j) == 'K') {
-                    K++;
-                }else if (readlines.get(i).charAt(j) == 'k') {
-                    k++;
-                }else if (readlines.get(i).charAt(j) == 'P') {
-                    P++;
-                }else if (readlines.get(i).charAt(j) == 'p') {
-                   p++;
-                }else if (readlines.get(i).charAt(j) == 'Q') {
-                    Q++;
-                }else if (readlines.get(i).charAt(j) == 'q') {
-                    q++;
-                }else if (readlines.get(i).charAt(j) == 'B') {
-                   B++;
-                }else if (readlines.get(i).charAt(j) == 'b') {
-                   b++;
-                }
                 count++;
             }
             if(count!=8){
                 System.out.println("Wrong chessboard");
-                return false;
-            }
-            if(r>2){
-                bo=false;
-                System.out.println("Wrong white rook number");
-            }
-            if(R>2){
-                bo=false;
-                System.out.println("Wrong black rook number");
-            }
-            if(n>2){
-                bo=false;
-                System.out.println("Wrong white knight number");
-            }
-            if(N>2){
-                bo=false;
-                System.out.println("Wrong black knight number");
-            }
-            if(K>1){
-                bo=false;
-                System.out.println("Wrong black king number");
-            }
-            if(k>1){
-                bo=false;
-                System.out.println("Wrong white king number");
-            }
-            if(Q>1){
-                bo=false;
-                System.out.println("Wrong black queen number");
-            }
-            if(q>1){
-                bo=false;
-                System.out.println("Wrong white queen number");
-            }
-            if(B>2){
-                bo=false;
-                System.out.println("Wrong black bishop number");
-            }
-            if(b>2){
-                bo=false;
-                System.out.println("Wrong white bishop number");
-            }
-            if(P>8){
-                bo=false;
-                System.out.println("Wrong black pawn number");
-            }
-            if(p>8){
-                bo=false;
-                System.out.println("Wrong white pawn number");
-            }
-            if(!bo){
                 return false;
             }
             count=0;
@@ -210,4 +147,16 @@ public class GameController {
             chessboard.setCurrentColor(ChessColor.BLACK);
         }
     }
+    public void addStack( List<String> readlines){
+        int j=0;
+        while(readlines.size()-9-j*9>=9){
+            List<String> stringList=new ArrayList<>();
+            for (int i=readlines.size()-9-j*9;i<readlines.size();i++){
+                stringList.add(readlines.get(i));
+            }
+            chessboard.getProccess().push(stringList);
+            j++;
+        }
+    }
+
 }
