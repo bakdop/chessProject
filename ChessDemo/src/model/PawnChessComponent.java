@@ -103,32 +103,16 @@ public class PawnChessComponent extends ChessComponent {
             if (curX0 >= 0 && curX0 <=7 && curY0 >= 0 && curY0 <= 7 && (chessComponents[curX0][curY0] instanceof EmptySlotComponent) && curX0 == targetX && curY0==targetY) return true;
             int curX1 = sourceX + directions[1][0]*j;
             int curY1 = sourceY + directions[1][1]*j;
-            if (curX1 >= 0 && curX1 <=7 && curY1 >= 0 && curY1 <= 7 && !(chessComponents[curX1][curY1] instanceof EmptySlotComponent)&& curX1 == targetX && curY1==targetY) {
-                if (Math.abs(targetX-sourceX)>1&&Math.abs(targetY-sourceY)>1) return false;
-                else return true;
-            }
+            if (curX1 >= 0 && curX1 <=7 && curY1 >= 0 && curY1 <= 7 && !(chessComponents[curX1][curY1] instanceof EmptySlotComponent)&& curX1 == targetX && curY1==targetY) return true;
             int curX2 = sourceX + directions[2][0]*j;
             int curY2 = sourceY + directions[2][1]*j;
-            if (Math.abs(targetX-sourceX)>1&&Math.abs(targetY-sourceY)>1) return false;
-            if (curX2 >= 0 && curX2 <=7 && curY2 >= 0 && curY2 <= 7 && !(chessComponents[curX2][curY2] instanceof EmptySlotComponent)&& curX2 == targetX && curY2==targetY) {
-                if (Math.abs(targetX-sourceX)>1||Math.abs(targetY-sourceY)>1) return false;
-                else return true;
-            }
+            if (curX2 >= 0 && curX2 <=7 && curY2 >= 0 && curY2 <= 7 && !(chessComponents[curX2][curY2] instanceof EmptySlotComponent)&& curX2 == targetX && curY2==targetY) return true;
         }
         return false;
     }
 
 
-    @Override
-    public String toString(){
-        String ret="";
-        if(super.chessColor.equals(ChessColor.BLACK)){
-            ret="P";
-        }else if(super.chessColor.equals(ChessColor.WHITE)){
-            ret="p";
-        }
-        return ret;
-    }
+
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *
@@ -143,10 +127,6 @@ public class PawnChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
-        }
-        if(isCanMovePosition()){
-            g.setColor(Color.BLACK);
-            g.drawOval(0,0,getWidth(),getHeight());
         }
     }
 }

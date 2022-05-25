@@ -42,16 +42,7 @@ public class QueenChessComponent extends ChessComponent {
         }
     }
 
-    @Override
-    public String toString(){
-        String ret="";
-        if(super.chessColor.equals(ChessColor.BLACK)){
-            ret="Q";
-        }else if(super.chessColor.equals(ChessColor.WHITE)){
-            ret="q";
-        }
-        return ret;
-    }
+
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定rookImage的图片是哪一种
      *
@@ -86,127 +77,48 @@ public class QueenChessComponent extends ChessComponent {
 
     @Override
     public boolean canMoveTo(ChessComponent[][] chessComponents, ChessboardPoint destination) {
+        ChessboardPoint source = getChessboardPoint();
         int targetX = destination.getX();
         int targetY = destination.getY();
-        ChessboardPoint source = getChessboardPoint();
-        int sourceX = source.getX();
-        int sourceY = source.getY();
-        int count = 0;
-        if (source.getX() == destination.getX()) {
-            int row = source.getX();
-            for (int col = Math.min(source.getY(), destination.getY()) + 1;
-                 col < Math.max(source.getY(), destination.getY()); col++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else if (source.getY() == destination.getY()) {
-            int col = source.getY();
-            for (int row = Math.min(source.getX(), destination.getX()) + 1;
-                 row < Math.max(source.getX(), destination.getX()); row++) {
-                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-                    return false;
-                }
-            }
-        } else {
-            if (sourceX == targetX || sourceY == targetY) return false;
-            int curX = sourceX;
-            int curY = sourceY;
-            while (true) {
-                if (targetX < sourceX && targetY < sourceY) {
-                    curX--;
-                    curY--;
-                } else if (targetX < sourceX && targetY > sourceY) {
-                    curX--;
-                    curY++;
-                } else if (targetX > sourceX && targetY < sourceY) {
-                    curX++;
-                    curY--;
-                } else if (targetX > sourceX && targetY > sourceY) {
-                    curX++;
-                    curY++;
-                }
-                if (curX < 0 || curX > 7 || curY < 0 || curY > 7) return false;
-                if (!(chessComponents[curX][curY] instanceof EmptySlotComponent) && curX != targetX && curY != targetY)
-                    return false;
-                if (curX == targetX && curY == targetY) return true;
-            }
-        }
-            return true;
-//        if (source.getX() == destination.getX()) {
-//            for (int col = Math.min(source.getY(), destination.getY()) + 1;   col < Math.max(source.getY(), destination.getY());   col++) {
-//                if (!(chessComponents[sourceX][col] instanceof EmptySlotComponent)) {
-//                    count++;
-//                }
-//                if(count!=(Math.max(source.getY(), destination.getY())- Math.min(source.getY(), destination.getY())-1)){
-//                    return false;
-//                }
-//                else return true;
-//            }
-//        } else if (source.getY() == destination.getY()) {
-//            int col = source.getY();
-//            for (int row = Math.min(source.getX(), destination.getX()) + 1;    row < Math.max(source.getX(), destination.getX()); row++) {
-//                if (!(chessComponents[row][col] instanceof EmptySlotComponent)) {
-//                    count++;
-//                }
-//                if(count!=(Math.max(source.getX(), destination.getX())- Math.min(source.getX(), destination.getX())-1)){
-//                    return false;
-//                }
-//                else return true;
-//            }
-//        }else {
-//            if (sourceX == targetX || sourceY == targetY) return false;
-//            int curX = sourceX;
-//            int curY = sourceY;
-//            while (true) {
-//                if (targetX <sourceX && targetY < sourceY){
-//                    curX--;
-//                    curY--;
-//                }else if (targetX < sourceX && targetY > sourceY){
-//                    curX--;
-//                    curY++;
-//                }else if (targetX > sourceX && targetY < sourceY){
-//                    curX++;
-//                    curY--;
-//                }else if (targetX > sourceX && targetY > sourceY){
-//                    curX++;
-//                    curY++;
-//                }
-//                if (curX < 0 || curX >7 || curY < 0 || curY > 7) return false;
-//                if (!(chessComponents[curX][curY] instanceof EmptySlotComponent) && curX != targetX && curY != targetY ) return false;
-//                if (curX == targetX && curY == targetY) return true;
-//        }
-//        int a=targetX-sourceX;
-//        int b=targetY-sourceY;
-//        if (sourceX < 0 || sourceX > 7 || sourceY < 0 || sourceY > 7) return false;
-//        if(Math.abs(a)!=Math.abs(b)){
-//            return false;
-//        }else {
-//
-//        }
-//
-//        for (int j=1; j<Math.max(Math.abs(a),Math.abs(b)); j++) {
-//            while (true) {
-//                if (targetX < sourceX && targetY < sourceY) {
-//                    sourceX-=j;
-//                    sourceY-=j;
-//                } else if (targetX < sourceX && targetY > sourceY) {
-//                    sourceX-=j;
-//                    sourceY+=j;
-//                } else if (targetX > sourceX && targetY < sourceY) {
-//                    sourceX+=j;
-//                    sourceY-=j;
-//                } else if (targetX > sourceX && targetY > sourceY) {
-//                    sourceX+=j;
-//                    sourceY+=j;
-//                }
-//                if (!(chessComponents[sourceX][sourceY] instanceof EmptySlotComponent) && sourceX != targetX && sourceY != targetY)
-//                    return false;
-//                if (sourceX == targetX && sourceY == targetY) return true;
-//            }
-//        }
+        int[][] directions = new int[][]{{0,-1},{0,1},{-1,0},{1,0},{-1,-1},{-1,1},{1,-1},{1,1}};
+        int bounds = 7;
+        int x = source.getX();
+        int y = source.getY();
+        int i = 0;
+       if (x == targetX){
+//           if (y > targetY){
+//               i = 0;
+//           }else {
+//               i =1;
+//           }
 
+           return true;
+       }else if(y == targetY){
+           if(x>targetX){
+               i = 2;
+           }else {
+               i = 3;
+           }
+       }else if (x>targetX && y>targetY){
+           i = 4;
+       }else if (x>targetX && y<targetY){
+           i = 5;
+       }else if (x<targetX && y>targetY){
+           i = 6;
+       }else {
+           i = 7;
+       }
+        System.out.println(i);
+        for (int j = 1; j <=bounds; j++) {
+            int curX = x + directions[i][0]*j;
+            int curY = y + directions[i][1]*j;
+            if (curX < 0 || curX >7 || curY < 0 || curY > 7) return false;
+            if (!(chessComponents[curX][curY] instanceof EmptySlotComponent) && (curX != targetX || curY != targetY)) return false;
+            if (curX == targetX && curY == targetY) return true;
+            }
+        return false;
     }
+
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *
@@ -221,10 +133,6 @@ public class QueenChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
-        }
-        if(isCanMovePosition()){
-            g.setColor(Color.BLACK);
-            g.drawOval(0,0,getWidth(),getHeight());
         }
     }
 }

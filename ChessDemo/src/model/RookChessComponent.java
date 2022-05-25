@@ -97,16 +97,7 @@ public class RookChessComponent extends ChessComponent {
         }
         return true;
     }
-    @Override
-    public String toString(){
-        String ret="";
-        if(super.chessColor.equals(ChessColor.BLACK)){
-            ret="R";
-        }else if(super.chessColor.equals(ChessColor.WHITE)){
-            ret="r";
-        }
-        return ret;
-    }
+
     /**
      * 注意这个方法，每当窗体受到了形状的变化，或者是通知要进行绘图的时候，就会调用这个方法进行画图。
      *
@@ -121,10 +112,6 @@ public class RookChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
-        }
-        if(isCanMovePosition()){
-            g.setColor(Color.BLACK);
-            g.drawOval(0,0,getWidth(),getHeight());
         }
     }
 }

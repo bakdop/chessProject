@@ -110,20 +110,5 @@ public class KnightChessComponent extends ChessComponent {
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
         }
-        if(isCanMovePosition()){
-            g.setColor(Color.BLACK);
-            g.drawOval(0,0,getWidth(),getHeight());
-        }
-    }
-
-    @Override
-    public String toString(){
-        String ret="";
-        if(super.chessColor.equals(ChessColor.BLACK)){
-            ret="N";
-        }else if(super.chessColor.equals(ChessColor.WHITE)){
-            ret="n";
-        }
-        return ret;
     }
 }

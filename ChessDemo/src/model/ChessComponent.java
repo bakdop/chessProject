@@ -1,22 +1,17 @@
 package model;
 
-import view.Chessboard;
 import view.ChessboardPoint;
 import controller.ClickController;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.io.IOException;
 
 /**
  * 这个类是一个抽象类，主要表示8*8棋盘上每个格子的棋子情况，当前有两个子类继承它，分别是EmptySlotComponent(空棋子)和RookChessComponent(车)。
  */
-public abstract class ChessComponent extends JComponent   {
+public abstract class ChessComponent extends JComponent {
 
     /**
      * CHESSGRID_SIZE: 主要用于确定每个棋子在页面中显示的大小。
@@ -27,86 +22,49 @@ public abstract class ChessComponent extends JComponent   {
      */
 
 //    private static final Dimension CHESSGRID_SIZE = new Dimension(1080 / 4 * 3 / 8, 1080 / 4 * 3 / 8);
-    public static final Color[] BACKGROUND_COLORS = {Color.yellow, Color.DARK_GRAY};
-    public  Color squareColor;
-
-    public ClickController getClickController() {
-        return clickController;
-    }
-
+    private static final Color[] BACKGROUND_COLORS = {Color.WHITE, Color.BLACK};
     /**
      * handle click event
      */
     private ClickController clickController;
+
     /**
      * chessboardPoint: 表示8*8棋盘中，当前棋子在棋格对应的位置，如(0, 0), (1, 0), (0, 7),(7, 7)等等
      * <br>
-     * chessColor: 表示这个棋子的颜色，有白，色黑色，无色三种
+     * chessColor: 表示这个棋子的颜色，有白色，黑色，无色三种
      * <br>
      * selected: 表示这个棋子是否被选中
      */
-    public ChessboardPoint chessboardPoint;
+    private ChessboardPoint chessboardPoint;
     protected final ChessColor chessColor;
     private boolean selected;
-    public Point location;
-    public int size;
-    private static Image boardImageB;
-    private Image chessboardimageB;
-    private static Image boardImageW;
-    private Image chessboardimageW;
-    private boolean canMovePosition=false;
 
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         setLocation(location);
-        this.location=location;
         setSize(size, size);
-        this.size=size;
         this.chessboardPoint = chessboardPoint;
         this.chessColor = chessColor;
         this.selected = false;
         this.clickController = clickController;
-        squareColor=BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
-        try {
-            loadimage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        chessboardimageB=boardImageB;
-        chessboardimageW=boardImageW;
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                squareColor=Color.WHITE;
-                repaint();
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                squareColor=BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
-                repaint();
-            }
-        });
     }
-    public void loadimage() throws IOException{
-        if(boardImageB==null){
-            boardImageB=ImageIO.read(new File("./images/Tnr6b2kPi1_small.jpg"));
-        }
-        if(boardImageW==null){
-            boardImageW=ImageIO.read(new File("./images/nH1R9pKZCm_small.jpg"));
-        }
-    }
+
     public ChessboardPoint getChessboardPoint() {
         return chessboardPoint;
     }
+
     public void setChessboardPoint(ChessboardPoint chessboardPoint) {
         this.chessboardPoint = chessboardPoint;
     }
+
     public ChessColor getChessColor() {
         return chessColor;
     }
+
     public boolean isSelected() {
         return selected;
     }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
@@ -133,11 +91,13 @@ public abstract class ChessComponent extends JComponent   {
     @Override
     protected void processMouseEvent(MouseEvent e) {
         super.processMouseEvent(e);
+
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
             System.out.printf("Click [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
             clickController.onClick(this);
         }
     }
+
     /**
      * @param chessboard  棋盘
      * @param destination 目标位置，如(0, 0), (0, 7)等等
@@ -154,29 +114,12 @@ public abstract class ChessComponent extends JComponent   {
      */
     public abstract void loadResource() throws IOException;
 
-    public boolean isCanMovePosition() {
-        return canMovePosition;
-    }
-
-    public void setCanMovePosition(boolean canMovePosition) {
-        this.canMovePosition = canMovePosition;
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
-        //System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
-        if(!squareColor.equals(Color.WHITE)){
-            squareColor=BACKGROUND_COLORS[(this.chessboardPoint.getX() + this.chessboardPoint.getY()) % 2];
-        }
-        g.setColor(squareColor );
+        System.out.printf("repaint chess [%d,%d]\n", chessboardPoint.getX(), chessboardPoint.getY());
+        Color squareColor = BACKGROUND_COLORS[(chessboardPoint.getX() + chessboardPoint.getY()) % 2];
+        g.setColor(squareColor);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        if(squareColor.equals( Color.DARK_GRAY)){
-            g.drawImage(chessboardimageB, 0, 0, this.getWidth() , this.getHeight(), this);
-        }else if(squareColor.equals(Color.yellow)){
-            g.drawImage(chessboardimageW, 0, 0, this.getWidth() , this.getHeight(), this);
-        }
     }
-
-
 }

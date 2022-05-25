@@ -40,16 +40,7 @@ public class BishopChessComponent extends ChessComponent {
         }
     }
 
-    @Override
-    public String toString(){
-        String ret="";
-        if(super.chessColor.equals(ChessColor.BLACK)){
-            ret="B";
-        }else if(super.chessColor.equals(ChessColor.WHITE)){
-            ret="b";
-        }
-        return ret;
-    }
+
     /**
      * 在构造棋子对象的时候，调用此方法以根据颜色确定rookImage的图片是哪一种
      *
@@ -127,10 +118,6 @@ public class BishopChessComponent extends ChessComponent {
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
-        }
-        if(isCanMovePosition()){
-            g.setColor(Color.BLACK);
-            g.drawOval(0,0,getWidth(),getHeight());
         }
     }
 }
